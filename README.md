@@ -22,9 +22,13 @@ The usage of the internal timer is protected against overrun.
 
 Usage
 =====
+
 1 Drop the libraries into the Adruino user libraries folder
+
 2 Open the Arduino IDE 
+
 3 Play around with the provided example
+
 
 Requirements
 ============
