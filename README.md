@@ -20,6 +20,13 @@ TTimer
 Timer class with with milli-second resolution. When the timer expires a configurable function is being called.
 The usage of the internal timer is protected against overrun.
 
+TLedStrip
+---------
+Class to handle RGB LedStrips providing buffer handling and related primitives such as 
+setRBG, setHSV, fill, copy, shift, rotate, mirror, filter supporting RGB and the HSV color model.
+As an example on how to use this class see here https://github.com/xconnected/LEDStripShow 
+
+
 Usage
 =====
 
