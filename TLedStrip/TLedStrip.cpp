@@ -19,70 +19,66 @@ void TLedStrip::set(int pos, byte *pElement) {
 }
 
 // ---------------------------------------------------------------------------
-void TLedStrip::setRGB(int pos, byte r, byte g, byte b) {
+void TLedStrip::setRGB(int pos, int r, int g, int b) {
 
   pos = constrain(pos, 0, _num-1);
 
-  _ledstrip[pos].r = r;
-  _ledstrip[pos].g = g;
-  _ledstrip[pos].b = b;  
+  _ledstrip[pos].r = (byte)(constrain(r,0,255));
+  _ledstrip[pos].g = (byte)(constrain(g,0,255));
+  _ledstrip[pos].b = (byte)(constrain(b,0,255));  
 }
 
 // ---------------------------------------------------------------------------
-void TLedStrip::setHSV(int pos, int hue, byte  sat, byte val) 
-  {  // Diese Funktion rechnet einen HSV-Wert in die ensprechenden
-     // RGB-Werte um. Diese werden im Array ‚colors' zurückgegeben
-     // colors[0] = ROg, colors[1]} = Gruen, colors[2] = Blau
-     // hue: 0 - 359, saturation: 0 - 255, val (lightness): 0 - 255
-  int red=0, green=0, blue=0, base=0;
-  
+void TLedStrip::setHSV(int pos, int hue, int  sat, int val) 
+  {  
+  // hue: 0 - 359, saturation: 0 - 255, val (lightness): 0 - 255
+    
   if (hue > 359) hue = hue % 359;
-  
+  val = constrain(val,0,255);
+  sat = constrain(sat,0,255);
+   
   if (sat == 0) 
-    { // Sättigung = 0 --> Grauwert
+    { 
+	// Acromatic color (gray)
     setRGB(pos, val, val, val);
     } 
   else  
     {
-    base = ((255 - sat) * val) >> 8;
-    if (hue < 60)
-      {
-      red = val;
-      green = (((val - base)*hue)/60) + base;
-      blue = base;
+	int r, g, b;
+    int base   = ((255 - sat) * val) >> 8;
+	
+    if (hue < 60) {
+      r = val;
+      g = (((val - base)*hue)/60) + base;
+      b = base;
+    }
+    else if (hue < 120) {
+      r = (((val - base)*(60-(hue%60)))/60) + base;
+      g = val;
+      b = base;
       }
-    else if (hue < 120)
-      {
-      red = (((val - base)*(60-(hue%60)))/60) + base;
-      green = val;
-      blue = base;
-      }
-    else if (hue < 180)
-      {
-      red = base;
-      green = val;
-      blue = (((val - base)*(hue%60))/60) + base;
-      }
-    else if (hue < 240)
-      {
-      red = base;
-      green = (((val - base)*(60 - (hue%60)))/60) + base;
-      blue = val;
-      }
-    else if (hue < 300)
-      {
-      red = (((val - base)*(hue%60))/60) + base;
-      green = base;
-      blue = val;
-      }
-    else if (hue < 360)
-      {
-      red = val;
-      green = base;
-      blue = (((val - base)*(60 - (hue%60)))/60) + base;
-      }
+    else if (hue < 180) {
+      r = base;
+      g = val;
+      b = (((val - base)*(hue%60))/60) + base;
+    }
+    else if (hue < 240) {
+      r = base;
+      g = (((val - base)*(60 - (hue%60)))/60) + base;
+      b = val;
+    }
+    else if (hue < 300) {
+      r = (((val - base)*(hue%60))/60) + base;
+      g = base;
+      b = val;
+    }
+    else if (hue < 360) {
+      r = val;
+      g = base;
+      b = (((val - base)*(60 - (hue%60)))/60) + base;
+    }
       
-    setRGB(pos, red, green, blue);
+    setRGB(pos, r, g, b);
     }
   }
 

@@ -24,8 +24,8 @@ class TLedStrip {
     void white();
     
     void set(int pos, byte *pElement);
-    void setRGB(int pos, byte r, byte g, byte b);
-    void setHSV(int pos, int hue, byte  sat, byte val);
+    void setRGB(int pos, int r, int g, int b);
+    void setHSV(int pos, int hue, int sat, int val);
 
     int getCount() { return _num; };
     
