@@ -6,15 +6,13 @@
 TSwitch Button = TSwitch(4); 
 
 // ---------------------------------------------------------------------------
-int freeRam () {
+  int freeRam () {
   extern int __heap_start, *__brkval; 
   int v; 
   return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
 }
-
 // ---------------------------------------------------------------------------
 void setup() {
-  
   delay(500);
   Serial.begin(38400);
   Serial.print("Start with free RAM of ");
@@ -25,14 +23,16 @@ void setup() {
 
 void loop() { 
 
-  // Test and debounce switch
-  Button.run();  
-
+  // Poll switch
+  Button.poll();  
+  
+  // On change evaluate the event
   if ( Button.hasChanged() ) {
-    Serial.print("switch operated ");
-	Serial.print("Mode := ");
-	Serial.println(Button.get());
-  }
+      Serial.print("CHANGE ");      
+      if ( Button.get() ) Serial.print("ON  "); else Serial.print("OFF ");
+      if ( Button.wasLong() ) Serial.print("LONG "); 
+      if ( Button.wasShort()) Serial.print("SHORT ");       
+      Serial.println();
+     }
 
 }
-
